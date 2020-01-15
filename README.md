@@ -6,3 +6,5 @@ Per ogni classe trovate:
 
 *  **lista incantesimi**: i nomi degli incantesimi divisi per livello, con comode caselline da barrare quando si preparano gli incatesimi
 *  **manuale incantesimi**: il compendio completo con tutte le descrizioni ed effetti di ogni incantesimo, divisi per livello
+
+Nella cartella src/ trovate anche il file JSON contenente tutti gli incantesimi e il software in HTML e JavaScript (VueJS) che ho usato per generare i manuali.

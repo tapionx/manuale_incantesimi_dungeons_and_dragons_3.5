@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8">
+		<title>Scheda degli incantesimi - D&D 3.5</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather|Poppins:400&display=swap" rel="stylesheet">
+
+
+    <style>
+      * {
+          font-size: 11px;
+          font-family: 'Merriweather', serif;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+.spell-div {
+    padding-left: 3em;
+    text-indent: -3em;
+}
+
+.description ul {
+    margin: 2px;
+    padding-inline-start: 18px;
+}
+
+.evoca-mostri {
+    column-count: 3;
+}
+      h1, .name, .features td {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      pre {
+          white-space: normal;
+      }
+
+      span.slots {
+          float: right;
+          font-size: 24px;
+          color: #5d5d5d;
+          letter-spacing: 2px;
+          line-height: 18px;
+      }
+
+      .spell {
+          /* border-bottom: 1px solid #d5d5d5; */
+          padding-bottom: 4px;
+          /* border: 1px solid grey; */
+          padding: 0;
+          /* font-weight: bold; */
+      }
+
+      .spell-title-row {
+          margin: 0 0;
+      }
+
+      span.descriptor {
+          margin-left: 5px;
+          position: relative;
+          bottom: 1px;
+      }
+      .description {
+          text-align: justify;
+          /* column-count: 3; */
+          /* letter-spacing: 0px; */
+          /* line-height: 12px; */
+      }
+      .name {
+        font-size: 16px;
+        margin: 3px 0;
+        display: inline;
+      }
+      .description p {
+        margin: 0;
+        display: inline;
+        column-count: 3;
+      }
+      .description table {
+        margin: 5px 0;
+      }
+
+table.evoca-mostri-table {
+    column-count: 4;
+    column-fill: auto;
+}
+      .features {
+        width: 100%;
+        margin: 0px 0 1px 0px;
+      }
+      .features td {
+        border: 1px solid #d5d5d5;
+        padding: 1px;
+      }
+      .features-headers td {
+        font-weight: bold;
+	      border: 0px;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      .description td, .description th {
+        border: 1px solid #d5d5d5;
+      }
+
+.evoca-mostri-table td {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+      @media print {
+        .pagebreak { page-break-before: always; }
+        .features { page-break-inside: avoid; }
+        .spell { page-break-inside: avoid; }
+        .spell-head { page-break-inside: avoid; }
+      }
+      @page {
+        size: A4 portrait;
+        margin: 5mm;
+        
+      }
+      .level-name {
+        font-size: 20px;
+        border-bottom: 1px solid black;
+        /* padding-bottom: 7px; */
+        margin-bottom: 5px;
+      }
+
+      .emoji {
+        font-size: 14px;
+      }
+    </style>
+	</head>
+	<body>
+		<div id="vue-template">
+      <template v-if="spells">
+
+        <!-- <template v-for="(class_spells, class_name) in spells">
+          <spells-page :spells="level_spells" :level="level" :class-name="class_name" v-for="(level_spells, level) in class_spells" :key="class_name+level"></spells-page>
+        </template> -->
+        <!-- <spells-page :spells="level_spells" :level="level" class-name="Chierico" v-for="(level_spells, level) in spells['Chierico']" :key="level"></spells-page> -->
+        <!-- <spells-page :spells="level_spells" :level="level" class-name="Stregone/Mago" v-for="(level_spells, level) in spells['Stregone/Mago']" :key="level"></spells-page> -->
+        <!-- <spells-page :spells="spells['Chierico']['2']" level="2" class-name="Chierico"></spells-page>
+        <spells-page :spells="spells['Chierico']['3']" level="3" class-name="Chierico"></spells-page> -->
+        <h1>Incantesimi da Druido</h1>
+        <div style="column-count: 3;">
+          <!-- <template v-for="(level_spells, level) in spells['Chierico']" v-if="level != 'Domini'"> -->
+          <template v-for="(level_spells, level) in spells['Druido']" v-if="level != 'Domini'">
+            <div class="level-name">{{ level }}</div>
+            <div v-for="spell in level_spells" class="spell-div">
+              <span class="spell">▢▢▢ {{ spell.name }}</span>
+              <!-- <div class="short-description">{{ spell.short_description }}</div> -->
+            </div>
+          </template>
+        </div>
+
+      </template>
+    </div>
+
+
+    <template id="spells-page-template">
+      <div class="level pagebreak">
+        <h1 class="level-name">{{ className }} livello {{ level }}</h1>
+        <div class="spell" v-for="spell in spells">
+          <div class="spell-head">
+            <div class="spell-title-row">
+              <h1 class="name">{{ spell.name }}</h1>
+              <span class="descriptor" v-if="spell.descriptor">[{{ spell.descriptor }}]</span>
+              <span class="slots">□□□□□□□□□□□□□□□</span>
+            </div>
+            <!-- <span class="level">{{ spell.level }}</span> -->
+            <table class="features">
+              <tr>
+                <td class="components">{{ spell.components }}</td>
+                <td class="casting_time">{{ spell.casting_time }}</td>
+                <td class="range"><span class="emoji">🏹</span> {{ spell.range }}</td>
+                <td class="target" v-if="spell.target"><span class="emoji">🎯</span> {{ spell.target }}</td>
+                <td class="area" v-if="spell.area">{{ spell.area }}</td>
+                <td class="duration"><span class="emoji">🕝</span> {{ spell.duration }}</td>
+                <td class="saving_throw" v-if="spell.saving_throw">TS: {{ spell.saving_throw }}</td>
+                <td class="spell_resistance" v-if="spell.spell_resistance">RI: {{ spell.spell_resistance }}</td>
+                <td class="xp_cost" v-if="spell.xp_cost">XP: {{ spell.xp_cost }}</td>
+                <td class="material_components" v-if="spell.material_components">MC: {{ spell.material_components }}</td>
+                <td class="arcane_material_components" v-if="spell.arcane_material_components">MC: {{ spell.arcane_material_components }}</td>
+                <td class="focus" v-if="spell.focus">focus: {{ spell.focus }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="description" v-html="spell.description"></div>
+        </div>
+      </div>
+    </template>
+
+
+		<script>
+
+      Vue.component('spells-page', {
+        props: ['spells', 'level', 'className'],
+        template: '#spells-page-template'
+      });
+
+
+			var app = new Vue({
+				el: '#vue-template',
+				data: {
+          spells: false,
+				},
+        mounted: function(){
+          fetch('incantesimi_ded35_per_classe.json')
+          .then(r => r.json())
+          .then(json => {
+            this.spells = json
+            window.spells = json;
+          })
+        }
+			})
+		</script>
+	</body>
+</html>
